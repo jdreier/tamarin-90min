@@ -1,4 +1,4 @@
-## Exercise 1.2: Public Key Infrastructure
+## Exercise 2: Public Key Infrastructure
 
 In the previous task, we abstracted away (via a rule) how Alice and Bob share a symmetric key. In real life, this is not an easy problem. In this task, we assume that a public key infrastructure (PKI) is available. 
 

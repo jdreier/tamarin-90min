@@ -3,7 +3,7 @@
 We start by considering a very simple protocol: Alice and Bob want to exchange two random numbers (mA and mB respectively) secretly. 
 In the following exercises, we will consider different versions of this protocol: different abstraction layers, different security properties and different adversarial models.
 
-## Exercise 1.1
+## Exercise 1
 
 In this exercise we just assume that Alice and Bob _already have_ a shared fresh symmetric secret key. Hence they can easily send each other encrypted messages:
 

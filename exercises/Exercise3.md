@@ -1,4 +1,4 @@
-## Exercise 1.3: Leaking keys
+## Exercise 3: Leaking keys
 
 The protocol of the previous task didn't achieve the security properties we wanted it to. In particular Bob had no guarantee Alice actually sent him the message. 
 
