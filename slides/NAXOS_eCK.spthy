@@ -1,27 +1,16 @@
-theory NAXOS_10_eCK_excl2
+theory NAXOS_eCK
 begin
 
 builtins: diffie-hellman
 
 section{* NAXOS *}
 
-/*
- * Protocol:	NAXOS
- * Modeler: 	Cas Cremers, Benedikt Schmidt
- * Date: 	January 2012/April 2012
- * Source:	"Stronger Security of Authenticated Key Exchange"
- * 		LaMacchia, Lauter, Mityagin, 2007
- * Property: 	eCK security
- *
- * Status: 	Working
- */
-
 functions: h1/1
 functions: h2/1
 
 /* Protocol rules */
 
-/* In the description in the paper, we omitted the sorts. 
+/* In the description in the slides, we omitted the sorts. 
  * In this description they are made explicit.
  * '$A' is equivalent to 'A:pub'
  * '~x' is equivalent to 'x:fresh'
@@ -48,8 +37,7 @@ rule Init_1:
 
 rule Init_2:
   let exI = h1(< ~eskI, ~lkI >)
-      kI    = h2(< Y^~lkI,          Y^exI, $I, $R >) 
-      // kI = h2(< Y^~lkI, pkR^exI, Y^exI, $I, $R >) 
+      kI  = h2(< Y^~lkI, pkR^exI, Y^exI, $I, $R >) 
   in
    [   Init_1( ~eskI, $I, $R, ~lkI , hkI), !Pk( $R, pkR ), In( Y ) ]
    --[ Accept( ~eskI, $I, $R, kI)
@@ -62,8 +50,7 @@ rule Init_2:
 rule Resp_1:
   let exR = h1(< ~eskR, ~lkR >)
       hkr = 'g'^exR
-      kR     = h2(< pkI^exR,         X^exR, $I, $R >) 
-      // kR  = h2(< pkI^exR, X^~lkR, X^exR, $I, $R >) 
+      kR  = h2(< pkI^exR, X^~lkR, X^exR, $I, $R >) 
   in
    [   Fr( ~eskR ), !Ltk($R, ~lkR), !Pk($I, pkI), In( X ) ]
    --[ Accept( ~eskR, $R, $I, kR )
@@ -86,19 +73,6 @@ rule Ephk_reveal:
 
 
 /* Security properties */
-/*
-lemma eCK_same_key:
-  " // If every agent registered at most one public key
-  (All A #i #j. RegKey(A)@i & RegKey(A)@j ==> (#i = #j))
-  ==> // then matching sessions accept the same key
-  (not (Ex #i1 #i2 #i3 #i4 s ss k kk A B minfo .
-              Accept(s, A, B, k ) @ i1
-	    & Accept(ss, B, A, kk) @ i2
-	    & Sid(s, minfo) @ i3
-	    & Match(ss, minfo) @i4
-	    & not( k = kk )
-  ) )"
-*/
 
 lemma eCK_key_secrecy:
   /* 
@@ -149,5 +123,9 @@ lemma eCK_key_secrecy:
       )
     )
   )"
+
+lemma executable:
+  exists-trace
+  "Ex id1 id2 I R k #i #j. Accept(id1, I, R, k) @ #i & Accept(id2, R, I, k) @ #j & not (#i = #j)"
 
 end

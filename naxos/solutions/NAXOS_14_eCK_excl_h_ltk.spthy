@@ -49,8 +49,7 @@ rule Init_1:
      , Out( hkI ) ]
 
 rule Init_2:
-  let pkR = 'g'^~lkR
-      exI = ~eskI
+  let exI = ~eskI
       //exI = h1(< ~eskI, ~lkI >)
       kI  = h2(< Y^~lkI, pkR^exI, Y^exI, $I, $R >) 
   in
@@ -63,8 +62,7 @@ rule Init_2:
 
 /* Responder */
 rule Resp_1:
-  let pkI = 'g'^~lkI
-      exR = ~eskR
+  let exR = ~eskR
       // exR = h1(< ~eskR, ~lkR >)
       hkr = 'g'^exR
       kR  = h2(< pkI^exR, X^~lkR, X^exR, $I, $R >) 
